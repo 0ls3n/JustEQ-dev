@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio Version 17
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustEQ - Standalone Plugin", "JustEQ_StandalonePlugin.vcxproj", "{C84F36B0-4DAD-1875-A09B-5E6AA5EDE1DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A5A8038-8C62-2101-41AE-38B075D9935D} = {7A5A8038-8C62-2101-41AE-38B075D9935D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustEQ - VST3", "JustEQ_VST3.vcxproj", "{E934AE73-9D8F-0E84-888A-36CE13AD5997}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A5A8038-8C62-2101-41AE-38B075D9935D} = {7A5A8038-8C62-2101-41AE-38B075D9935D}
+		{3200E208-3656-B906-4E0C-21008976F7D9} = {3200E208-3656-B906-4E0C-21008976F7D9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustEQ - Shared Code", "JustEQ_SharedCode.vcxproj", "{7A5A8038-8C62-2101-41AE-38B075D9935D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JustEQ - VST3 Manifest Helper", "JustEQ_VST3ManifestHelper.vcxproj", "{3200E208-3656-B906-4E0C-21008976F7D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E934AE73-9D8F-0E84-888A-36CE13AD5997}.Debug|x64.ActiveCfg = Debug|x64
+		{E934AE73-9D8F-0E84-888A-36CE13AD5997}.Debug|x64.Build.0 = Debug|x64
+		{E934AE73-9D8F-0E84-888A-36CE13AD5997}.Release|x64.ActiveCfg = Release|x64
+		{E934AE73-9D8F-0E84-888A-36CE13AD5997}.Release|x64.Build.0 = Release|x64
+		{C84F36B0-4DAD-1875-A09B-5E6AA5EDE1DB}.Debug|x64.ActiveCfg = Debug|x64
+		{C84F36B0-4DAD-1875-A09B-5E6AA5EDE1DB}.Debug|x64.Build.0 = Debug|x64
+		{C84F36B0-4DAD-1875-A09B-5E6AA5EDE1DB}.Release|x64.ActiveCfg = Release|x64
+		{C84F36B0-4DAD-1875-A09B-5E6AA5EDE1DB}.Release|x64.Build.0 = Release|x64
+		{7A5A8038-8C62-2101-41AE-38B075D9935D}.Debug|x64.ActiveCfg = Debug|x64
+		{7A5A8038-8C62-2101-41AE-38B075D9935D}.Debug|x64.Build.0 = Debug|x64
+		{7A5A8038-8C62-2101-41AE-38B075D9935D}.Release|x64.ActiveCfg = Release|x64
+		{7A5A8038-8C62-2101-41AE-38B075D9935D}.Release|x64.Build.0 = Release|x64
+		{3200E208-3656-B906-4E0C-21008976F7D9}.Debug|x64.ActiveCfg = Debug|x64
+		{3200E208-3656-B906-4E0C-21008976F7D9}.Debug|x64.Build.0 = Debug|x64
+		{3200E208-3656-B906-4E0C-21008976F7D9}.Release|x64.ActiveCfg = Release|x64
+		{3200E208-3656-B906-4E0C-21008976F7D9}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
