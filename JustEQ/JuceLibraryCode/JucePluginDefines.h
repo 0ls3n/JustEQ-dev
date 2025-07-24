@@ -47,13 +47,13 @@
  #define JucePlugin_Desc                   "JustEQ"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "yourcompany"
+ #define JucePlugin_Manufacturer           "JustMixing"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "www.yourcompany.com"
+ #define JucePlugin_ManufacturerWebsite    "www.justmixing.0ls3n.dk"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      ""
+ #define JucePlugin_ManufacturerEmail      "Rasmus@0ls3n.dk"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
  #define JucePlugin_ManufacturerCode       0x4d616e75
@@ -92,10 +92,10 @@
  #define JucePlugin_VSTCategory            kPlugCategEffect
 #endif
 #ifndef  JucePlugin_Vst3Category
- #define JucePlugin_Vst3Category           "Fx"
+ #define JucePlugin_Vst3Category           "Fx|EQ"
 #endif
 #ifndef  JucePlugin_AUMainType
- #define JucePlugin_AUMainType             'aufx'
+ #define JucePlugin_AUMainType             'aumx'
 #endif
 #ifndef  JucePlugin_AUSubType
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
@@ -110,10 +110,10 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.yourcompany.JustEQ
+ #define JucePlugin_CFBundleIdentifier     com.JustMixing.JustEQ
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.JustEQ
+ #define JucePlugin_AAXIdentifier          com.JustMixing.JustEQ
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "yourcompany: JustEQ"
+ #define JucePlugin_IAAName                "JustMixing: JustEQ"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.yourcompany.JustEQ.factory"
+ #define JucePlugin_ARAFactoryID           "com.JustMixing.JustEQ.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.yourcompany.JustEQ.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.JustMixing.JustEQ.aradocumentarchive.1.0.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

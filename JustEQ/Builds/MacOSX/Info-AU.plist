@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.JustEQ</string>
+    <string>com.JustMixing.JustEQ</string>
     <key>CFBundleName</key>
     <string>JustEQ</string>
     <key>CFBundleDisplayName</key>
@@ -29,7 +29,7 @@
     <array>
       <dict>
         <key>name</key>
-        <string>yourcompany: JustEQ</string>
+        <string>JustMixing: JustEQ</string>
         <key>description</key>
         <string>JustEQ</string>
         <key>factoryFunction</key>
@@ -37,7 +37,7 @@
         <key>manufacturer</key>
         <string>Manu</string>
         <key>type</key>
-        <string>aufx</string>
+        <string>aumx</string>
         <key>subtype</key>
         <string>Bo1i</string>
         <key>version</key>
