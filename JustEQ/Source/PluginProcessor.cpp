@@ -166,7 +166,8 @@ bool JustEQAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* JustEQAudioProcessor::createEditor()
 {
-    return new JustEQAudioProcessorEditor (*this);
+    //return new JustEQAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
@@ -181,6 +182,40 @@ void JustEQAudioProcessor::setStateInformation (const void* data, int sizeInByte
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout JustEQAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+
+    for (int i = 0; i < 16; ++i)
+    {
+        layout.add(std::make_unique<juce::AudioParameterChoice>(
+            "Band" + juce::String(i + 1) + "_Type", "Band" + juce::String(i + 1) + " Type",
+            juce::StringArray{ "Bell", "Lowpass", "Highpass", "Notch" }, 0));
+
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+            "Band" + juce::String(i + 1) + "_Freq", "Band" + juce::String(i + 1) + " Frequency",
+            juce::NormalisableRange<float>(20.0f, 20000.0f, 0.01f, 0.5f), 1000.0f));
+
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+            "Band" + juce::String(i + 1) + "_Gain", "Band" + juce::String(i + 1) + " Gain",
+            juce::NormalisableRange<float>(-24.0f, 24.0f, 0.01f), 0.0f));
+
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+            "Band" + juce::String(i + 1) + "_Q", "Band" + juce::String(i + 1) + " Q",
+            juce::NormalisableRange<float>(0.1f, 10.0f, 0.01f), 1.0f));
+
+        layout.add(std::make_unique<juce::AudioParameterBool>(
+            "Band" + juce::String(i + 1) + "_Active", "Band" + juce::String(i + 1) + " Active",
+            false));
+
+        layout.add(std::make_unique<juce::AudioParameterBool>(
+            "Band" + juce::String(i + 1) + "_Visible", "Band" + juce::String(i + 1) + " Visible",
+            false));
+    }
+
+    return layout; 
 }
 
 //==============================================================================
