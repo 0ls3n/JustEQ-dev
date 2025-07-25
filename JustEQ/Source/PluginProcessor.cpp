@@ -93,8 +93,23 @@ void JustEQAudioProcessor::changeProgramName (int index, const juce::String& new
 //==============================================================================
 void JustEQAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    juce::dsp::ProcessSpec spec{ sampleRate, static_cast<juce::uint32>(samplesPerBlock), static_cast<juce::uint32>(getTotalNumOutputChannels())};
+
+    leftFilters.clear();
+    leftFilters.resize(16);
+
+    rightFilters.clear();
+    rightFilters.resize(16);
+
+    for (auto &filter : leftFilters)
+    {
+        filter.prepare(spec);
+    }
+
+    for (auto &filter : rightFilters)
+    {
+        filter.prepare(spec);
+    }
 }
 
 void JustEQAudioProcessor::releaseResources()
@@ -131,30 +146,61 @@ bool JustEQAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) c
 
 void JustEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    juce::dsp::AudioBlock<float> block(buffer);
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    auto leftBlock = block.getSingleChannelBlock(0);
+    auto rightBlock = block.getSingleChannelBlock(1);
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    for (int i = 0; i < 16; i++)
     {
-        auto* channelData = buffer.getWritePointer (channel);
+        auto prefix = "Band" + juce::String(i + 1);
 
-        // ..do something to the data...
+        bool active = *apvts.getRawParameterValue(prefix + "_Active");
+        if (!active)
+            continue;
+
+        float freq = *apvts.getRawParameterValue(prefix + "_Freq");
+        float gain = *apvts.getRawParameterValue(prefix + "_Gain");
+        float Q = *apvts.getRawParameterValue(prefix + "_Q");
+        int type = *apvts.getRawParameterValue(prefix + "_Type");
+
+        auto& leftFilter = leftFilters[i];
+        auto& rightFilter = rightFilters[i];
+
+        switch (type)
+        {
+        case 0: // Bell
+            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(
+                getSampleRate(), freq, Q, juce::Decibels::decibelsToGain(gain));
+
+            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(
+                getSampleRate(), freq, Q, juce::Decibels::decibelsToGain(gain));
+            break;
+
+        case 1: // Low Shelf
+            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
+                getSampleRate(), freq, Q);
+            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
+                getSampleRate(), freq, Q);
+            break;
+
+        case 2: // High Shelf
+            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeHighPass(
+                getSampleRate(), freq, Q);
+            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeHighPass(
+                getSampleRate(), freq, Q);
+            break;
+
+        case 3: // Notch
+            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeNotch(
+                getSampleRate(), freq, Q);
+            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeNotch(
+                getSampleRate(), freq, Q);
+            break;
+        }
+
+        leftFilter.process(juce::dsp::ProcessContextReplacing<float>(leftBlock));
+        rightFilter.process(juce::dsp::ProcessContextReplacing<float>(rightBlock));
     }
 }
 

@@ -56,7 +56,10 @@ public:
 
 private:
 
-    using Filter = juce::dsp::FIR::Filter<float>;
+    using Filter = juce::dsp::IIR::Filter<float>;
+
+    std::vector<Filter> leftFilters;
+    std::vector<Filter> rightFilters;
 
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState apvts{ *this, nullptr,  "PARAMETERS", createParameterLayout() };
