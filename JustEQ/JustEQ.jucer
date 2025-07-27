@@ -5,6 +5,11 @@
               companyWebsite="www.justmixing.0ls3n.dk" companyEmail="Rasmus@0ls3n.dk"
               pluginVST3Category="EQ" pluginAUMainType="'aumx'">
   <MAINGROUP id="mfzA5l" name="JustEQ">
+    <GROUP id="{51A93359-0D68-C707-5E49-F4AF407D5601}" name="Band">
+      <FILE id="Le1gNy" name="BandProcessor.cpp" compile="1" resource="0"
+            file="Source/BandProcessor.cpp"/>
+      <FILE id="oF8Vrn" name="BandProcessor.h" compile="0" resource="0" file="Source/BandProcessor.h"/>
+    </GROUP>
     <GROUP id="{9ADBF209-E55A-3475-38A7-343D93B3AA82}" name="Source">
       <FILE id="zuFW3T" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
