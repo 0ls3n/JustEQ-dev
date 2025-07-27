@@ -22,6 +22,8 @@ JustEQAudioProcessor::JustEQAudioProcessor()
                        )
 #endif
 {
+    for (int i = 0; i < 16; ++i)
+        bands.emplace_back(getTreeState(), i);
 }
 
 JustEQAudioProcessor::~JustEQAudioProcessor()
@@ -93,22 +95,9 @@ void JustEQAudioProcessor::changeProgramName (int index, const juce::String& new
 //==============================================================================
 void JustEQAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    juce::dsp::ProcessSpec spec{ sampleRate, static_cast<juce::uint32>(samplesPerBlock), static_cast<juce::uint32>(getTotalNumOutputChannels())};
-
-    leftFilters.clear();
-    leftFilters.resize(16);
-
-    rightFilters.clear();
-    rightFilters.resize(16);
-
-    for (auto &filter : leftFilters)
+    for (auto &band : bands)
     {
-        filter.prepare(spec);
-    }
-
-    for (auto &filter : rightFilters)
-    {
-        filter.prepare(spec);
+        band.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
     }
 }
 
@@ -146,61 +135,9 @@ bool JustEQAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) c
 
 void JustEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    juce::dsp::AudioBlock<float> block(buffer);
-
-    auto leftBlock = block.getSingleChannelBlock(0);
-    auto rightBlock = block.getSingleChannelBlock(1);
-
-    for (int i = 0; i < 16; i++)
+    for (auto& band : bands)
     {
-        auto prefix = "Band" + juce::String(i + 1);
-
-        bool active = *apvts.getRawParameterValue(prefix + "_Active");
-        if (!active)
-            continue;
-
-        float freq = *apvts.getRawParameterValue(prefix + "_Freq");
-        float gain = *apvts.getRawParameterValue(prefix + "_Gain");
-        float Q = *apvts.getRawParameterValue(prefix + "_Q");
-        int type = *apvts.getRawParameterValue(prefix + "_Type");
-
-        auto& leftFilter = leftFilters[i];
-        auto& rightFilter = rightFilters[i];
-
-        switch (type)
-        {
-        case 0: // Bell
-            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(
-                getSampleRate(), freq, Q, juce::Decibels::decibelsToGain(gain));
-
-            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(
-                getSampleRate(), freq, Q, juce::Decibels::decibelsToGain(gain));
-            break;
-
-        case 1: // Low Shelf
-            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
-                getSampleRate(), freq, Q);
-            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeLowPass(
-                getSampleRate(), freq, Q);
-            break;
-
-        case 2: // High Shelf
-            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeHighPass(
-                getSampleRate(), freq, Q);
-            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeHighPass(
-                getSampleRate(), freq, Q);
-            break;
-
-        case 3: // Notch
-            *leftFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeNotch(
-                getSampleRate(), freq, Q);
-            *rightFilter.coefficients = *juce::dsp::IIR::Coefficients<float>::makeNotch(
-                getSampleRate(), freq, Q);
-            break;
-        }
-
-        leftFilter.process(juce::dsp::ProcessContextReplacing<float>(leftBlock));
-        rightFilter.process(juce::dsp::ProcessContextReplacing<float>(rightBlock));
+        band.process(buffer, getSampleRate());
     }
 }
 

@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="JustEQ\Band">
+      <UniqueIdentifier>{2F510461-7D12-8206-A596-611F43829321}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JustEQ\Source">
       <UniqueIdentifier>{5BFACDF9-E904-F4CA-F597-953A9C564326}</UniqueIdentifier>
     </Filter>
@@ -694,6 +697,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\BandProcessor.cpp">
+      <Filter>JustEQ\Band</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>JustEQ\Source</Filter>
     </ClCompile>
@@ -3672,6 +3678,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\BandProcessor.h">
+      <Filter>JustEQ\Band</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>JustEQ\Source</Filter>
     </ClInclude>

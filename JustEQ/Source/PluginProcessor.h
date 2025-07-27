@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "BandProcessor.h"
 
 //==============================================================================
 /**
@@ -53,17 +54,15 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    juce::AudioProcessorValueTreeState& getTreeState() { return apvts; }
+
 
 private:
-
-    using Filter = juce::dsp::IIR::Filter<float>;
-
-    std::vector<Filter> leftFilters;
-    std::vector<Filter> rightFilters;
 
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState apvts{ *this, nullptr,  "PARAMETERS", createParameterLayout() };
 
+    std::vector < EQProcessing::BandProcessor> bands;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JustEQAudioProcessor)
 };
